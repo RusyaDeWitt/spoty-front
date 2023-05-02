@@ -1,0 +1,9 @@
+.register__main {
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+}
+
+.register__body {
+  max-width: 450px;
+}
