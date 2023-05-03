@@ -1,3 +1,8 @@
+body {
+  background-color: white;
+}
+  
+
 .register__main {
   display: flex;
   justify-content: center;

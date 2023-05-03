@@ -1,3 +1,7 @@
+body {
+  background-color: white;
+}
+
 .login__header {
   border-bottom: 1px solid rgb(217, 218, 220);
   display: flex;

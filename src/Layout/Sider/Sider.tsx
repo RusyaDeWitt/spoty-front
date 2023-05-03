@@ -1,75 +1,60 @@
-import { useState } from 'react';
-import { Menu, Button } from 'antd';
-import {
-  AppstoreOutlined,
-  ContainerOutlined,
-  DesktopOutlined,
-  MailOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  PieChartOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import { useState, useEffect } from 'react';
+import axios from 'axios'
+import { Menu } from 'antd';
+import { HomeOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlayList } from '../../types';
+import { PlayListItem } from '../../components/Playlist/Playlist';
+import MenuItem from 'antd/es/menu/MenuItem';
+import './styles.css'
 
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group',
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('Option 3', '3', <ContainerOutlined />),
-
-  getItem('Navigation One', 'sub1', <MailOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Option 7', '7'),
-    getItem('Option 8', '8'),
-  ]),
-
-  getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-
-    getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
-  ]),
-];
 
 export function SiderLayout () {
-  const [collapsed, setCollapsed] = useState(false);
+  const [playlists, setPlayLists] = useState<PlayList[]>()
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+  async function fetchPlayListDetail () {
+    try {
+      const tempAxios = axios.create({
+        baseURL: 'http://127.0.0.1:8000',
+      });
+      const response = await tempAxios.get("api/v1/playlists/");
+      console.log("Request successful!");
+      setPlayLists(response.data)
+      
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.reponse.status);
+      } else {
+        console.log(error.message);
+      }
+    }
+  }
+  
+  
+  useEffect(() => {
+    fetchPlayListDetail()
+  }
+  ,[])
+
 
   return (
-    <div style={{ width: 256 }}>
-    <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
-      {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-    </Button>
+    <div style={{ width: 450 }}>
+              <div className='sider__header'>
+          <div className='sider__header__item'>
+            <HomeOutlined style={{fontSize: '40px'}}/>
+            <h2>Главная</h2>
+          </div>
+          <div className='sider__header__item'>
+            <SearchOutlined style={{fontSize: '40px'}} />
+            <h2>Поиск</h2>
+          </div>
+        </div>
     <Menu
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
-      mode="inline"
-      theme="dark"
-      inlineCollapsed={collapsed}
-      items={items}
-    />
+      style={{background: '#121212', color: 'white', marginRight: '20px !important', height: '90vh'}} mode="inline"
+      inlineCollapsed={true}
+    > 
+      <h3 style={{marginLeft: '20px', marginBottom: "0px"}}>Плейлисты</h3>
+      {playlists?.map((item) => <MenuItem key={item.name} className='menu__item'><PlayListItem name={item.name} /></MenuItem> )}
+    </Menu>
   </div>
   )
 }

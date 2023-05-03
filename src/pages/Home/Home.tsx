@@ -1,12 +1,24 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { useCallback, useState} from "react";
 import { MainLayout } from "../../Layout";
-import { Login } from "../Login/Login";
-import { Register } from "../Register/Register";
-import { RouteList } from "../../Routes";
+import { Main } from '../Main/Main'
+import { useParams } from "react-router-dom";
+
 
 
 export function Home () {
+
+  const [currentComponent, setCurrentComponent] = useState<string>("main")
+
+  const onContentRender = useCallback(() => {
+    if(currentComponent === "main"){
+      return <Main />
+    }
+
+  }, [currentComponent]);
+
   return (
-      <h1>heelo</h1>
+      <MainLayout>
+        {onContentRender()}
+      </MainLayout>
   )
 }

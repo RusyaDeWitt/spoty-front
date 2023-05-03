@@ -1,3 +1,9 @@
+import './styles.css'
+
 export function FooterLayout () {
-  return <h1>Footer</h1>
+  return (
+    <div className="footer">
+      gg
+    </div>
+  )
 }

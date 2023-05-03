@@ -1,21 +1,32 @@
 import { PropsWithChildren } from 'react';
 import { Layout } from 'antd';
-import { HeaderLayout } from './Header/Header';
+
 import { SiderLayout } from './Sider/Sider';
 import { FooterLayout } from './Footer/Footer';
+import './styles.css'
 
 export function MainLayout({children}: PropsWithChildren){
-  const {Footer, Content } = Layout;
+  const { Footer, Content, Sider} = Layout;
   return (
-    <Layout>
-      <HeaderLayout />
-      <Layout>
+    <Layout style={{height: '100% !important'}} hasSider>
+      <Sider
+        style={{
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          backgroundColor: 'black',
+        }}
+      >
         <SiderLayout />
-        <Content>{children}</Content>
+      </Sider>
+      <Layout>
+        <Content style={{backgroundColor: 'black', marginLeft: '200px', height: '100vh'}}>{children}</Content>
+        <Footer style={{backgroundColor: 'black'}}>
+          <FooterLayout />
+        </Footer>
       </Layout>
-      <Footer>
-        <FooterLayout />
-      </Footer>
     </Layout>
   )
 }

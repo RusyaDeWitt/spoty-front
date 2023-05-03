@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Button, Form, Input } from 'antd'
-import { RegisterValues } from '../../types/Register'
+import { User } from '../../types'
 import { useNavigate } from 'react-router-dom';
 
 import './styles.css'
@@ -10,7 +10,7 @@ export function Register () {
   const [form] = Form.useForm()
   const navigate = useNavigate();
 
-  async function onRegister(values: RegisterValues) {
+  async function onRegister(values: User) {
     let user = {
       username: values.username,
       email: values.email,
@@ -23,7 +23,7 @@ export function Register () {
       });
       const response = await tempAxios.post("/api/v1/users/", user);
       console.log(response)
-      navigate("/home")
+      navigate(`/home/${response.data.id}`)
     } catch (error: any) {
       if (error.response) {
         console.log(error.reponse.status);
@@ -35,7 +35,7 @@ export function Register () {
   
 // Calling that async function;
 
-  const onFinish = (values: RegisterValues) => {
+  const onFinish = (values: User) => {
     onRegister(values)
   }
 

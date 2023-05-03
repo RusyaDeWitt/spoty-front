@@ -1,0 +1,9 @@
+.playlists {
+  display: flex ;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.playlist_item {
+  display: block;
+}

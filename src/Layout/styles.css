@@ -1,0 +1,19 @@
+
+.sider__header {
+  display: block;
+  max-width: 200px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #121212;
+  padding: 20px;
+}
+
+.sider__header__item {
+  color: white;
+  display: flex;
+  gap: 20px;
+}
+
+.ant-menu-inline {
+  max-width: 200px !important;
+}

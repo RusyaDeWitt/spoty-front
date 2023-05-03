@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
-import { RegisterValues } from '../../types'
+import { User } from '../../types'
 import './styles.css'
 import { useNavigate } from 'react-router-dom';
 
@@ -9,17 +9,17 @@ export function Login() {
   const [form] = Form.useForm()
   const navigate = useNavigate ();
 
-  async function onLogin (values: RegisterValues) {
+  async function onLogin (values: User) {
     try {
       const tempAxios = axios.create({
         baseURL: 'http://127.0.0.1:8000',
       });
       const response = await tempAxios.get("/api/v1/users/");
       console.log("Request successful!");
-      response.data.forEach((user: RegisterValues) => {
+      response.data.forEach((user: User) => {
         if(user.username === form.getFieldValue(["username"])){
           if(user.password === form.getFieldValue(["password"])){
-            navigate("/home")
+            navigate(`/home/${user.id}`)
           }
         }
       })
@@ -34,7 +34,7 @@ export function Login() {
   
 // Calling that async function;
 
-  const onFinish = (values: RegisterValues) => {
+  const onFinish = (values: User) => {
     onLogin(values)
   }
 

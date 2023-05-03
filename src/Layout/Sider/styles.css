@@ -1,0 +1,9 @@
+.menu__item {
+  padding: 20px !important;
+  margin-top: 30px !important;
+  margin-bottom: 10px !important;
+}
+
+.ant-menu-item-selected {
+  background-color: transparent !important;
+}
